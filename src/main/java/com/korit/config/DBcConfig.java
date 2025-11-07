@@ -1,0 +1,7 @@
+package com.korit.config;
+
+public class DBcConfig {
+    public static final String URL ="jdbc:mysql://localhost:3306/db_studey";
+    public static final String USERNAME="root";
+    public static final String PASSWORD ="1q2w3e4r";
+}
