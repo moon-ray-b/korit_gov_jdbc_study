@@ -5,6 +5,8 @@ import com.korit.util.ConnectionFactory;
 
 import javax.swing.plaf.nimbus.State;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
 * DAO (Data Access Object)
@@ -55,5 +57,71 @@ public class UserDao {
         }
     }
     //findUserByUsername(String Username)
+    public User findUserByUsername(String username){
+        String sql = "select user_id, username, password, age, create_dt from user_tb where username = ?";
+        try (
+                Connection con = ConnectionFactory.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)
+        ){
+            ps.setString(1, username);
+
+            //조회 executeQuery() 사용함
+            try(ResultSet rs = ps.executeQuery()){
+                return rs.next() ? toUser(rs) : null;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public List<User> getUserListByKeyword(String keyword) {
+        String sql = "select * from user_tb where username like ?";
+        List<User> userList = new ArrayList<>();
+
+        try (
+                Connection con = ConnectionFactory.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+        ) {
+            ps.setString(1, "%" + keyword + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    userList.add(toUser(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return userList; // ✅ try문 바깥에서 반환해야 함
+    }
+
+
     //getUserAllList()
+    public List<User> getUserAllList(){
+        String sql = "select user_id, username, password, age, create_dt from user_tb";
+        List<User> userList = new ArrayList<>();
+        try (
+                Connection con = ConnectionFactory.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()
+        ){
+            while (rs.next()){
+                userList.add(toUser(rs));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return userList;
+    }
+
+    private User toUser(ResultSet rs) throws SQLException{
+        return User.builder()
+                .userId(rs.getInt("user_Id"))
+                .username(rs.getString("username"))
+                .password(rs.getString("password"))
+                .age(rs.getInt("age"))
+                .createDt(rs.getTimestamp("create_dt").toLocalDateTime())
+                .build();
+    }
 }
