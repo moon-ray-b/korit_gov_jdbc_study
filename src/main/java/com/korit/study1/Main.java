@@ -1,7 +1,7 @@
-package com.korit;
+package com.korit.study1;
 
-import com.korit.dao.UserDao;
-import com.korit.entity.User;
+import com.korit.study1.dao.UserDao;
+import com.korit.study1.entity.User;
 
 import java.util.List;
 

@@ -1,9 +1,8 @@
-package com.korit.dao;
+package com.korit.study1.dao;
 
-import com.korit.entity.User;
-import com.korit.util.ConnectionFactory;
+import com.korit.study1.entity.User;
+import com.korit.study1.util.ConnectionFactory;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

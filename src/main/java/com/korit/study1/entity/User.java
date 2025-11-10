@@ -1,6 +1,5 @@
-package com.korit.entity;
+package com.korit.study1.entity;
 
-import jdk.jfr.DataAmount;
 import lombok.Builder;
 import lombok.Data;
 
